@@ -2,10 +2,8 @@ use std::io;
 
 fn collatz(x: u64, v: &mut Vec<u64>) {
     v.push(x);
-    if x == 1 {
-        return
-    }
     match x {
+        _ if x == 1 => return,
         x if x % 2 == 1 => {
             collatz((3 * x) + 1, v);
         },
