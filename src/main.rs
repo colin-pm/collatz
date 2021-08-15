@@ -14,23 +14,25 @@ fn collatz(x: u64, v: &mut Vec<u64>) {
     }
 }
 
-fn main() {
+fn get_num_from_user() -> Result<u64, io::Error> {
     println!("Please enter a number: ");
     let mut input = String::new();
-    match io::stdin().read_line(&mut input) {
-        Ok(_) => {
-            input.pop();
-            match input.parse::<u64>() {
-                Ok(x) => {
-                    let mut vec = Vec::new();
-                    collatz(x, &mut vec);
-                    println!("Sequence: {:?}", vec);
-                },
-                Err(error) => {
-                    println!("error: {}", error);
-                },
-            };
-        }
-        Err(error) => println!("error: {}", error),
+    io::stdin().read_line(&mut input)?;
+    input.pop();
+    let x = input.parse::<u64>().expect("Could not parse input");
+    Ok(x)
+}
+
+fn main() {
+    match get_num_from_user() {
+        Ok(x) => {
+            let mut vec = Vec::new();
+            collatz(x, &mut vec);
+            println!("Sequence: {:?}", vec);
+        },
+        Err(error) => {
+            println!("error: {}", error);
+        },
     }
+        
 }
